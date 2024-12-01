@@ -51,11 +51,6 @@ class Ingredient(db.Model):
         nullable=False
     )
 
-    still_tasty_code  = db.Column(
-        db.String(5),
-        nullable=True
-    )
-
     best_by_date = db.Column(
         db.Date,
         nullable=False,
@@ -68,3 +63,66 @@ class Ingredient(db.Model):
         nullable=False
     )
 
+    meals_worth = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    high_value = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False
+    )
+
+    storage_method = db.Column(
+        db.String(7),
+        db.CheckConstraint("storage_method.in_(['fridge', 'pantry', 'freezer'])"),
+        nullable=False
+    )
+
+    ingredient_type = db.Column(
+        db.Integer,
+        db.ForeignKey("types.id"),
+        nullable=True
+    )
+
+
+class Type(db.Model):
+    """Types of ingredients"""
+
+    __tablename__ = "types"
+
+    __table_args__ = (
+        db.CheckConstraint("""freezer_months !=None |
+                              fridge_month != None |
+                              pantry_months != None""")
+    )
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=True
+    )
+
+    ingredients = db.relationship("Ingredient", backref="type")
+
+    name = db.Column(
+        db.String(50),
+        nullable=False,
+        unique=True
+    )
+
+    freezer_months = db.Column(
+        db.Integer,
+        nullable=True
+    )
+
+    fridge_months = db.Column(
+        db.Integer,
+        nullable=True
+    )
+
+    pantry_months = db.Column(
+        db.Integer,
+        nullable=True
+    )
