@@ -113,7 +113,7 @@ class Type(db.Model):
     ingredients = db.relationship("Ingredient", backref="type")
 
     name = db.Column(
-        db.String(50),
+        db.String(65),
         nullable=False,
         unique=True
     )
