@@ -76,7 +76,10 @@ class Ingredient(db.Model):
 
     storage_method = db.Column(
         db.String(7),
-        db.CheckConstraint("storage_method.in_(['fridge', 'pantry', 'freezer'])"),
+        db.CheckConstraint(
+            "storage_method IN ('fridge', 'pantry', 'freezer')",
+            name="check_valid_storage_method"
+        ),
         nullable=False
     )
 
@@ -93,9 +96,12 @@ class Type(db.Model):
     __tablename__ = "types"
 
     __table_args__ = (
-        db.CheckConstraint("""freezer_months !=None |
-                              fridge_month != None |
-                              pantry_months != None""")
+        db.CheckConstraint(
+            """freezer_months IS NOT NULL OR
+               fridge_months IS NOT NULL OR
+               pantry_months IS NOT NULL""",
+            name="check_for_a_non_null_storage_months"
+        ),
     )
 
     id = db.Column(
