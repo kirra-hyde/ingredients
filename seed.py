@@ -38,8 +38,6 @@ soup = Type(name="Soups/Stews/Broth, homemade or opened", freezer_months=6)
 ice_cream = Type(name="Ice-Cream", freezer_months=4)
 cookie_dough = Type(name="Cookie Dough, homemade", freezer_months=6)
 fridge_cookie_dough = Type(name="Cookie Dough, store bought from fridge section", freezer_months=4)
-baked_pie = Type(name="Pie, baked", freezer_months=8)
-unbaked_pie = Type(name="Pie, unbaked", freezer_months=4)
 bread = Type(name="Bread", freezer_months=3)
 waffles = Type(name="Waffles/Pancakes", freezer_months=2)
 frozen_waffles = Type(name="Waffles, purchased frozen", freezer_months=4)
@@ -81,7 +79,7 @@ white_vinegar = Type(name="Distilled White Vinegar", pantry_months=-1)
 
 herbs = Type(name="Most Dried Herbs (ex. oregano)", pantry_months=36)
 spices = Type(name="Most Spices (ex. cinnamon, garlic powder)", pantry_months=48)
-natural_peanut_butter = Type(name="Peanut Butter, natural, opened or not", fridge_months=6, pantry_months=1)
+nat_peanut_butter = Type(name="Peanut Butter, natural, opened or not", fridge_months=6, pantry_months=1)
 unnatural_peanut_butter = Type(name="Peanut Butter, w/stabilizers, opened", fridge_months=7, pantry_months=3)
 jam = Type(name="Jams/Jellies, opened", fridge_months=12)
 bread_crumbs = Type(name="Bread Crumbs", pantry_months=12)
@@ -115,16 +113,16 @@ db.session.add_all([
     frozen_lean_fish, cooked_shellfish, raw_shrimp, frozen_shrimp, raw_bivalve,
     frozen_bivalve, cooked_ground_meat, raw_ground_meat, cooked_steaks_roasts,
     raw_steaks_roasts, cooked_chicken, raw_chicken, egg_whites, fruits, veggies,
-    soup, ice_cream, cookie_dough, fridge_cookie_dough, baked_pie, unbaked_pie,
-    bread, waffles, frozen_waffles, pancake_mix, cereal, closed_cereal, oats,
-    cooked_rice, raw_brown_rice, white_rice, beans, cooked_pasta, dry_pasta,
-    quinoa, whole_wheat_flour, white_flour, cornmeal, baking_powder,
-    tapioca_starch, almonds, bottled_almonds, peanuts, cashews, walnuts, pecans,
-    sunflower_seeds, raisins, avocado_oil, canola_oil, olive_oil, cooking_spray,
-    vinegars, balsamic_vinegar, white_vinegar, herbs, spices,
-    natural_peanut_butter, unnatural_peanut_butter, jam, bread_crumbs, pickles,
-    relish, ketchup, mayo, mustard, horseradish, tartar_sauce, salad_dressing,
-    barbecue_sauce, cocktail_sauce, worcestershire, hot_sauce, miso, teriyaki,
-    soy_sauce, oyster_sauce, fish_sauce, sesame_oil, tomato_sauce, cans
+    soup, ice_cream, cookie_dough, fridge_cookie_dough, bread, waffles,
+    frozen_waffles, pancake_mix, cereal, closed_cereal, oats, cooked_rice,
+    raw_brown_rice, white_rice, beans, cooked_pasta, dry_pasta, quinoa,
+    whole_wheat_flour, white_flour, cornmeal, baking_powder, tapioca_starch,
+    almonds, bottled_almonds, peanuts, cashews, walnuts, pecans, sunflower_seeds,
+    raisins, avocado_oil, canola_oil, olive_oil, cooking_spray, vinegars,
+    balsamic_vinegar, white_vinegar, herbs, spices, nat_peanut_butter,
+    unnatural_peanut_butter, jam, bread_crumbs, pickles, relish, ketchup, mayo,
+    mustard, horseradish, tartar_sauce, salad_dressing, barbecue_sauce,
+    cocktail_sauce, worcestershire, hot_sauce, miso, teriyaki, soy_sauce,
+    oyster_sauce, fish_sauce, sesame_oil, tomato_sauce, cans
 ])
 db.session.commit()
