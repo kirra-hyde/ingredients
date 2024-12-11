@@ -12,7 +12,7 @@ def connect_db(app):
 
 
 class User(db.Model):
-    """User"""
+    """Users"""
 
     __tablename__ = "users"
 
@@ -32,13 +32,17 @@ class User(db.Model):
         nullable=False
     )
 
-    ingredients = db.relationship("Ingredient", backref="user")
+    ingredients = db.relationship(
+        "UserIngredient",
+        cascade="all, delete-orphan",
+        backref="user"
+    )
 
 
-class Ingredient(db.Model):
-    """A user's ingredient"""
+class UserIngredient(db.Model):
+    """A user's ingredients"""
 
-    __tablename__ = "ingredients"
+    __tablename__ = "user_ingredients"
 
     id = db.Column(
         db.Integer,
@@ -83,17 +87,17 @@ class Ingredient(db.Model):
         nullable=False
     )
 
-    ingredient_type = db.Column(
+    ingredient_id = db.Column(
         db.Integer,
-        db.ForeignKey("types.id"),
+        db.ForeignKey("ingredients.id"),
         nullable=True
     )
 
 
-class Type(db.Model):
-    """Types of ingredients"""
+class Ingredient(db.Model):
+    """Ingredients"""
 
-    __tablename__ = "types"
+    __tablename__ = "ingredients"
 
     __table_args__ = (
         db.CheckConstraint(
@@ -110,7 +114,10 @@ class Type(db.Model):
         autoincrement=True
     )
 
-    ingredients = db.relationship("Ingredient", backref="type")
+    user_ingredients = db.relationship(
+        "UserIngredient",
+        backref="ingredient_type"
+    )
 
     name = db.Column(
         db.String(65),
