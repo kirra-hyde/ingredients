@@ -51,8 +51,14 @@ class UserIngredient(db.Model):
     )
 
     name = db.Column(
-        db.String(20),
+        db.String(30),
         nullable=False
+    )
+
+    purchase_date = db.Column(
+        db.Date,
+        nullable=False,
+        default=datetime.date.today()
     )
 
     best_by_date = db.Column(
@@ -69,7 +75,8 @@ class UserIngredient(db.Model):
 
     meals_worth = db.Column(
         db.Integer,
-        nullable=False
+        nullable=False,
+        default=5
     )
 
     high_value = db.Column(
@@ -91,6 +98,12 @@ class UserIngredient(db.Model):
         db.Integer,
         db.ForeignKey("ingredients.id"),
         nullable=True
+    )
+
+    suggest = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True
     )
 
 

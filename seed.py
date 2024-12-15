@@ -1,4 +1,4 @@
-from models import Ingredient, db
+from models import Ingredient, User, UserIngredient, db
 from app import app
 
 db.drop_all()
