@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from flask import Flask, request, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
@@ -61,13 +62,13 @@ def get_best_months(id):
     out["name"] = ingredient.name
     out["shelf_life"] = {}
 
-    if (ingredient.pantry_months != None):
+    if (ingredient.pantry_months is not None):
         out["shelf_life"]["pantry"] = ingredient.pantry_months
 
-    if (ingredient.fridge_months != None):
+    if (ingredient.fridge_months is not None):
         out["shelf_life"]["fridge"] = ingredient.fridge_months
 
-    if (ingredient.freezer_months != None):
+    if (ingredient.freezer_months is not None):
         out["shelf_life"]["freezer"] = ingredient.freezer_months
 
     return jsonify(out)
@@ -76,16 +77,26 @@ def get_best_months(id):
 @app.post("/api/users/<username>/add_ingredient")
 def add_ingredient(username):
     name = request.json["name"]
-    meals_worth = request.json["meals_worth"]
-    high_value = request.json["high_value"]
+    meals_worth = request.json.get("meals_worth", 5)
+    high_value = request.json.get("high_value", False)
     storage_method = request.json["storage_method"]
+    purchase_date = request.json.get("purchase_date", datetime.date.today())
+    best_by_date = request.json.get("best_by_date", "2500-12-30")
+    ingredient_id = request.json.get("ingredient_id")
+    suggest = request.json.get("suggest", True)
+    last_used = request.json.get("last_used", "2000-01-01")
 
     ingredient = UserIngredient(
         username=username,
         name=name,
         meals_worth = meals_worth,
         high_value = high_value,
-        storage_method = storage_method
+        storage_method = storage_method,
+        purchase_date=purchase_date,
+        best_by_date=best_by_date,
+        ingredient_id = ingredient_id,
+        suggest=suggest,
+        last_used=last_used
     )
 
     db.session.add(ingredient)
@@ -96,11 +107,10 @@ def add_ingredient(username):
 @app.get("/api/users/<username>/get_ingredients")
 def get_ingredient(username):
 
-    user = User.query.get(username)
+    user = User.query.get_or_404(username)
 
     out = []
     for ingredient in user.ingredients:
-        out.append(ingredient.name)
+        out.append(ingredient.to_dict())
 
     return jsonify(out)
-

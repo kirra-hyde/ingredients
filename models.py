@@ -106,6 +106,27 @@ class UserIngredient(db.Model):
         default=True
     )
 
+    last_used = db.Column(
+        db.Date,
+        nullable=False,
+        default=datetime.datetime(year=2000, month=1, day=1).date()
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "purchase_date": self.purchase_date.isoformat(),
+            "best_by_date": self.best_by_date.isoformat(),
+            "username": self.username,
+            "meals_worth": self.meals_worth,
+            "high_value": self.high_value,
+            "storage_method": self.storage_method,
+            "ingredient_id": self.ingredient_id,
+            "suggest": self.suggest,
+            "last_used": self.last_used.isoformat()
+        }
+
 
 class Ingredient(db.Model):
     """Ingredients"""
