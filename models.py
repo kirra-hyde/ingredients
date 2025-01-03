@@ -67,12 +67,6 @@ class UserIngredient(db.Model):
         default=datetime.datetime(year=2500, month=12, day=30).date()
     )
 
-    username = db.Column(
-        db.String(15),
-        db.ForeignKey("users.username"),
-        nullable=False
-    )
-
     meals_worth = db.Column(
         db.Integer,
         nullable=False,
@@ -94,12 +88,6 @@ class UserIngredient(db.Model):
         nullable=False
     )
 
-    ingredient_id = db.Column(
-        db.Integer,
-        db.ForeignKey("ingredients.id"),
-        nullable=True
-    )
-
     suggest = db.Column(
         db.Boolean,
         nullable=False,
@@ -110,6 +98,18 @@ class UserIngredient(db.Model):
         db.Date,
         nullable=False,
         default=datetime.datetime(year=2000, month=1, day=1).date()
+    )
+
+    ingredient_id = db.Column(
+        db.Integer,
+        db.ForeignKey("ingredients.id"),
+        nullable=True
+    )
+
+    username = db.Column(
+        db.String(15),
+        db.ForeignKey("users.username"),
+        nullable=False
     )
 
     def to_dict(self):
@@ -148,11 +148,6 @@ class Ingredient(db.Model):
         autoincrement=True
     )
 
-    user_ingredients = db.relationship(
-        "UserIngredient",
-        backref="ingredient_type"
-    )
-
     name = db.Column(
         db.String(65),
         nullable=False,
@@ -172,4 +167,9 @@ class Ingredient(db.Model):
     pantry_months = db.Column(
         db.Integer,
         nullable=True
+    )
+
+    user_ingredients = db.relationship(
+        "UserIngredient",
+        backref="ingredient_type"
     )

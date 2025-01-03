@@ -22,6 +22,7 @@ connect_db(app)
 @app.post("/api/users/add")
 def add_user():
     """Add a new user"""
+
     username = request.json["username"]
     password = request.json["password"]    #TODO: Proper passwording
     email = request.json["email"]
@@ -55,6 +56,7 @@ def get_best_months(id):
         }
     }
     """
+
     ingredient = Ingredient.query.get_or_404(id)
 
     out = {}
@@ -76,6 +78,8 @@ def get_best_months(id):
 
 @app.post("/api/users/<username>/add_ingredient")
 def add_ingredient(username):
+    """Add a new ingredient to a user's list"""
+
     name = request.json["name"]
     meals_worth = request.json.get("meals_worth", 5)
     high_value = request.json.get("high_value", False)
@@ -105,12 +109,19 @@ def add_ingredient(username):
     return jsonify(f"New {name} added")
 
 @app.get("/api/users/<username>/get_ingredients")
-def get_ingredient(username):
+def get_ingredients(username):
+    """Retrieve all ingredients for a user, ordered by ingredient_id"""
 
-    user = User.query.get_or_404(username)
+    ingredients = (UserIngredient.query
+                   .filter_by(username=username)
+                   .order_by(
+                       UserIngredient.ingredient_id.is_(None),
+                       "ingredient_id",
+                       "name",
+                       "purchase_date"
+                    )
+                   .all())
 
-    out = []
-    for ingredient in user.ingredients:
-        out.append(ingredient.to_dict())
+    out = [ingredient.to_dict() for ingredient in ingredients]
 
     return jsonify(out)
