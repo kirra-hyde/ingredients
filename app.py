@@ -122,6 +122,6 @@ def get_ingredients(username):
                     )
                    .all())
 
-    out = [ingredient.to_dict() for ingredient in ingredients]
+    out = [ingredient.to_display_dict() for ingredient in ingredients]
 
     return jsonify(out)

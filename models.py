@@ -112,17 +112,14 @@ class UserIngredient(db.Model):
         nullable=False
     )
 
-    def to_dict(self):
+    def to_display_dict(self):
         return {
-            "id": self.id,
             "name": self.name,
             "purchase_date": self.purchase_date.isoformat(),
             "best_by_date": self.best_by_date.isoformat(),
-            "username": self.username,
             "meals_worth": self.meals_worth,
             "high_value": self.high_value,
             "storage_method": self.storage_method,
-            "ingredient_id": self.ingredient_id,
             "suggest": self.suggest,
             "last_used": self.last_used.isoformat()
         }
